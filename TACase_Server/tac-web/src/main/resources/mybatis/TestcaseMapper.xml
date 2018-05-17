@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.tac.mapper.TestcaseMapper">
+    <resultMap id="BaseResultMap" type="com.lee.tac.model.Testcase">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="project_id" jdbcType="INTEGER" property="projectId" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="last_excute_time" jdbcType="TIMESTAMP" property="lastExcuteTime" />
+        <result column="author" jdbcType="VARCHAR" property="author" />
+    </resultMap>
+    <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.lee.tac.model.Testcase">
+        <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    </resultMap>
+    <resultMap id="TestcaseDtoMap" type="com.lee.tac.dto.TestcaseDto">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="project_name" jdbcType="VARCHAR" property="projectName" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="last_excute_time" jdbcType="TIMESTAMP" property="lastExcuteTime" />
+        <result column="author" jdbcType="VARCHAR" property="author" />
+        <result column="num" jdbcType="INTEGER" property="num" />
+    </resultMap>
+    <resultMap extends="TestcaseDtoMap" id="TestcaseDtoWithBLOBs" type="com.lee.tac.dto.TestcaseDto">
+        <result column="content" jdbcType="LONGVARCHAR" property="content" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, name, project_id, create_time, last_excute_time, author
+    </sql>
+    <sql id="Blob_Column_List">
+        content
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List" />
+        ,
+        <include refid="Blob_Column_List" />
+        from testcase
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="queryTestCaseListForSearch" parameterType="com.lee.tac.dto.TestcaseDto" resultMap="TestcaseDtoMap">
+        select testcase.id, testcase.name, project.name as project_name, testcase.create_time, last_excute_time, author, content, count(if(testcase_log.status in ('doing', 'notstart'),true,null)) as num
+        from testcase left join project on project.id = testcase.project_id left join testcase_log on testcase.id = testcase_log.testcase_id
+        <where>
+            <if test="projectName != null and projectName!=''">
+                project.name = #{projectName,jdbcType=VARCHAR}
+            </if>
+            <if test="name != null and name!=''">
+                AND testcase.name like CONCAT('%','${name}','%')
+            </if>
+            <if test="id != null and id!=''">
+                AND testcase.id = #{id,jdbcType=INTEGER}
+            </if>
+            <if test="startTime!=null and startTime!=''">
+                <![CDATA[   AND DATE_FORMAT(testcase.create_time, '%Y-%m-%d')>=  DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                <![CDATA[  AND DATE_FORMAT(testcase.create_time, '%Y-%m-%d') < DATE_FORMAT(#{endTime}, '%Y-%m-%d')    ]]>
+            </if>
+        </where>
+        group by testcase.id
+        order by testcase.id DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from testcase
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.lee.tac.model.Testcase">
+        insert into testcase (id, name, project_id,
+        create_time, last_excute_time, author,
+        content)
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{projectId,jdbcType=INTEGER},
+        #{createTime,jdbcType=TIMESTAMP}, #{lastExcuteTime,jdbcType=TIMESTAMP}, #{author,jdbcType=VARCHAR},
+        #{content,jdbcType=LONGVARCHAR})
+    </insert>
+    <insert id="insertSelective" parameterType="com.lee.tac.model.Testcase">
+        insert into testcase
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="projectId != null">
+                project_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="lastExcuteTime != null">
+                last_excute_time,
+            </if>
+            <if test="author != null">
+                author,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="projectId != null">
+                #{projectId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastExcuteTime != null">
+                #{lastExcuteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="author != null">
+                #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lee.tac.model.Testcase">
+        update testcase
+        <set>
+            <if test="name != null and name !=''">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="projectId != null and projectId !=''">
+                project_id = #{projectId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null and createTime !=''">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastExcuteTime != null and lastExcuteTime !=''">
+                last_excute_time = #{lastExcuteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="author != null and author !=''">
+                author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null and content !=''">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeySelectiveRowLock" parameterType="com.lee.tac.model.Testcase">
+        update testcase
+        <set>
+            <if test="name != null and name !=''">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="projectId != null and projectId !=''">
+                project_id = #{projectId,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null and createTime !=''">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="lastExcuteTime != null and lastExcuteTime !=''">
+                last_excute_time = #{lastExcuteTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="author != null and author !=''">
+                author = #{author,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null and content !=''">
+                content = #{content,jdbcType=LONGVARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER} and 0=(select num from (select count(if(testcase_log.status in ('doing', 'notstart'),true,null)) as num from testcase left join testcase_log on testcase.id = testcase_log.testcase_id where testcase.id=#{id,jdbcType=INTEGER} group by testcase.id)tc)
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.lee.tac.model.Testcase">
+    update testcase
+    set name = #{name,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_excute_time = #{lastExcuteTime,jdbcType=TIMESTAMP},
+      author = #{author,jdbcType=VARCHAR},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.lee.tac.model.Testcase">
+    update testcase
+    set name = #{name,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      last_excute_time = #{lastExcuteTime,jdbcType=TIMESTAMP},
+      author = #{author,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">  
+
+    <!--
+        尽量使用xml声明服务，避免在非宿主项目依赖dubbo包及其注解
+        统一使用slf4j
+    -->
+    <dubbo:application logger="slf4j" name="${dubbo.app}" owner="lee"/>
+    <dubbo:registry address="${dubbo.registry}" timeout="${dubbo.timeout}"/>
+
+    <dubbo:protocol accesslog="true" name="dubbo" port="${dubbo.port}" />
+    <!--Http Servlet Bridge-->
+    <dubbo:protocol accesslog="true" name="jsonrpc" port="${server.port}" server="servlet" contextpath="services" />
+    
+    <!--声明需要暴露的服务接口-->
+
+    <dubbo:service interface="com.lee.tac.facade.pull.TestcaseStatusPullApi" ref="caseStatusApi" version="1.0.0" protocol="dubbo,jsonrpc"/>
+    <dubbo:service interface="com.lee.tac.facade.pull.ProjectPullApi" ref="projectApi" version="1.0.0" protocol="dubbo,jsonrpc"/>
+    <dubbo:service interface="com.lee.tac.facade.pull.TestcasePullApi" ref="reportApi" version="1.0.0" protocol="dubbo,jsonrpc"/>
+    <dubbo:service interface="com.lee.tac.facade.TestcaseApi" ref="reportApi" version="1.0.0" protocol="dubbo,jsonrpc"/>
+    <dubbo:service interface="com.lee.tac.facade.pull.TestcaseLogPullApi" ref="reportLogApi" version="1.0.0" protocol="dubbo,jsonrpc"/>
+    <dubbo:service interface="com.lee.tac.facade.pull.StatisticsApi" ref="statisticsApi" version="1.0.0" protocol="dubbo,jsonrpc"/>
+
+    <!--声明需要暴露的服务接口，不提供jsonrpc-->
+
+    <dubbo:service interface="com.lee.tac.inner.ProjectService" ref="projectService" version="1.0.0" protocol="dubbo"/>
+    <dubbo:service interface="com.lee.tac.inner.StatisticsService" ref="statisticsService" version="1.0.0" protocol="dubbo"/>
+    <dubbo:service interface="com.lee.tac.inner.ViewService" ref="viewService" version="1.0.0" protocol="dubbo"/>
+    <dubbo:service interface="com.lee.tac.inner.TestcaseLogService" ref="testcaseLogService" version="1.0.0" protocol="dubbo"/>
+    <dubbo:service interface="com.lee.tac.inner.AsyncService" ref="asyncService" version="1.0.0" protocol="dubbo"/>
+    <!--声明需要依赖的服务接口-->
+    <!--<dubbo:reference id="caseStatusApi" interface="com.lefit.tac.facade.pull.TestcaseStatusPullApilApi" version="1.0.0" />-->
+</beans>
