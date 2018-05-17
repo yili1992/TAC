@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.lee.tac</groupId>
+  <artifactId>tac-root</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+    <module>tac-api</module>
+    <module>tac-provider</module>
+    <module>tac-web</module>
+  </modules>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.5.2.RELEASE</version>
+  </parent>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <skip_maven_deploy>true</skip_maven_deploy>
+    <version.tac>0.0.1-SNAPSHOT</version.tac>
+    <xxl.mq.version>1.1.1</xxl.mq.version>
+  </properties>
+
+  <!--在父POM声明依赖的版本-->
+  <dependencyManagement>
+    <dependencies>
+      <!--biz-->
+      <dependency>
+        <groupId>com.lee.tac</groupId>
+        <artifactId>tac-api</artifactId>
+        <version>${version.tac}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.lee.tac</groupId>
+        <artifactId>tac-provider</artifactId>
+        <version>${version.tac}</version>
+      </dependency>
+
+      <!--logger 统一使用slf4j以及spring默认的logback-->
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>1.7.12</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>1.7.6</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!--for test-->
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.12</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.easymock</groupId>
+        <artifactId>easymockclassextension</artifactId>
+        <version>2.4</version>
+        <scope>test</scope>
+      </dependency>
+
+      <!--spring-boot 1.5.2.RELEASE 对应的spring版本4.3.7.RELEASE 至少要高于它-->
+      <!--<dependency>
+              <groupId>org.springframework</groupId>
+              <artifactId>spring-context</artifactId>
+              <version>4.3.7.RELEASE</version>
+          </dependency>-->
+
+      <!--对应mybatis版本为3.4.5-->
+      <dependency>
+        <groupId>org.mybatis.spring.boot</groupId>
+        <artifactId>mybatis-spring-boot-starter</artifactId>
+        <version>1.3.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>1.1.38</version>
+      </dependency>
+      <!--dubbox-->
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>dubbo</artifactId>
+        <version>2.6.0</version>
+      </dependency>
+      <!--使用zk注册中心 版本为3.4.6-->
+      <dependency>
+        <groupId>com.github.sgroschupf</groupId>
+        <artifactId>zkclient</artifactId>
+        <version>0.1</version>
+      </dependency>
+      <!--dubbo jsonrpc扩展-->
+      <dependency>
+        <groupId>com.qianmi</groupId>
+        <artifactId>dubbo-rpc-jsonrpc</artifactId>
+        <version>1.0.1</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <!--只允许在父POM声明少量全局依赖-->
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymockclassextension</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <!--<dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+    </dependency>-->
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!--打包必须带源码-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <!--jdk1.8-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+          <showWarnings>true</showWarnings>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <configuration>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+      <!--强声明jar插件版本-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+      </plugin>
+      <!--声明是否需要deploy-->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <configuration>
+          <skip>${skip_maven_deploy}</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

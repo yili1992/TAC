@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<!--
+		日志路径：
+		/opt/logs/tac/tac.log
+		/opt/logs/tac/tac.testcase.log
+	-->
+	<property name="log.name" value="tac" />
+	<property name="log.path" value="/Users/zhaoli/Downloads/files" />
+  	
+  	<!--本地开发环境使用当前路径-->
+  	<springProfile name="development">
+  		<property name="log.path" value="./logs" />
+	</springProfile>
+
+  	<!--console仅用于本地debug调试-->
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%date|%level|%logger{50}|%msg%n</pattern>
+		</encoder>
+	</appender>
+	<!--默认的应用日志输出-->
+	<appender name="all" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/${log.name}.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.path}/${log.name}.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%date [%level] %logger{32} %msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+	<!--打印需要单独收集的业务数据，如面向报表、业务明细等需求-->
+	<appender name="testcase" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.path}/${log.name}.testcase.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>${log.path}/${log.name}.testcase.%i.log</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>9</maxIndex>
+	    </rollingPolicy>
+	    <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+	      	<maxFileSize>1GB</maxFileSize>
+	    </triggeringPolicy>
+	    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%msg%n</pattern>
+			<charset>UTF-8</charset>
+		</encoder>
+	</appender>
+	
+	<!--<logger name="org.springframework" level="WARN" />-->
+	
+	<logger name="testcase" level="DEBUG" additivity="false">
+		<appender-ref ref="testcase" />
+	</logger>
+
+	<root>
+		<level value="INFO" />
+		<!--本地开发环境输出到console-->
+		<springProfile name="development">
+			<appender-ref ref="stdout" />	
+		</springProfile>
+		<appender-ref ref="all" />
+	</root>
+</configuration>

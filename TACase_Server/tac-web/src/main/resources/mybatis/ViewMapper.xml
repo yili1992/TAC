@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.tac.mapper.ViewMapper">
+  <resultMap id="BaseResultMap" type="com.lee.tac.model.View">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="pv" jdbcType="INTEGER" property="pv" />
+    <result column="uv" jdbcType="INTEGER" property="uv" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, time, pv, uv
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from view
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="getViewCountList" parameterType="com.lee.tac.dto.ViewDto" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from view
+    <where>
+      <if test="startTime!=null and startTime!=''">
+        <![CDATA[   AND DATE_FORMAT(time, '%Y-%m-%d')>=  DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+      </if>
+      <if test="endTime!=null and endTime!=''">
+        <![CDATA[  AND DATE_FORMAT(time, '%Y-%m-%d') < DATE_FORMAT(#{endTime}, '%Y-%m-%d')    ]]>
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from view
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lee.tac.model.View">
+    insert into view (id, time, pv, uv
+      )
+    values (#{id,jdbcType=INTEGER}, #{time,jdbcType=TIMESTAMP}, #{pv,jdbcType=INTEGER}, #{uv,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.lee.tac.model.View">
+    insert into view
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="time != null">
+        time,
+      </if>
+      <if test="pv != null">
+        pv,
+      </if>
+      <if test="uv != null">
+        uv,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="time != null">
+        #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pv != null">
+        #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="uv != null">
+        #{uv,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lee.tac.model.View">
+    update view
+    <set>
+      <if test="time != null">
+        time = #{time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pv != null">
+        pv = #{pv,jdbcType=INTEGER},
+      </if>
+      <if test="uv != null">
+        uv = #{uv,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lee.tac.model.View">
+    update view
+    set time = #{time,jdbcType=TIMESTAMP},
+      pv = #{pv,jdbcType=INTEGER},
+      uv = #{uv,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

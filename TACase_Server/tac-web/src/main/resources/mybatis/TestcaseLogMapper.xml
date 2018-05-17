@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.tac.mapper.TestcaseLogMapper">
+    <resultMap id="BaseResultMap" type="com.lee.tac.model.TestcaseLog">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="testcase_id" jdbcType="INTEGER" property="testcaseId" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+        <result column="log_link" jdbcType="VARCHAR" property="logLink" />
+    </resultMap>
+    <resultMap id="TestcaseLogDto" type="com.lee.tac.dto.TestcaseLogDto">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="status" jdbcType="VARCHAR" property="status" />
+        <result column="testcase_name" jdbcType="VARCHAR" property="testcaseName" />
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+        <result column="log_link" jdbcType="VARCHAR" property="logLink" />
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, testcase_id, status, start_time, end_time, log_link
+  </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="TestcaseLogDto">
+        select
+        <include refid="Base_Column_List" />
+        from testcase_log
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <select id="queryLogListForSearch" parameterType="com.lee.tac.dto.LogPullDto" resultMap="TestcaseLogDto">
+        select testcase_log.id, testcase.name as testcase_name, start_time, end_time, log_link, status
+        from testcase_log left join testcase on testcase_log.testcase_id = testcase.id
+        <where>
+            <if test="testcaseId != null" >
+                testcase_log.testcase_id = #{testcaseId,jdbcType=INTEGER}
+            </if>
+            <if test="statusCode != null and statusCode.length()>0" >
+                AND status= #{statusCode,jdbcType=VARCHAR}
+            </if>
+            <if test="startTime!=null and startTime!=''">
+                <![CDATA[   AND DATE_FORMAT(start_time, '%Y-%m-%d')>=  DATE_FORMAT(#{startTime}, '%Y-%m-%d')   ]]>
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                <![CDATA[  AND DATE_FORMAT(start_time, '%Y-%m-%d') < DATE_FORMAT(#{endTime}, '%Y-%m-%d')    ]]>
+            </if>
+        </where>
+        order by testcase_log.id DESC
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from testcase_log
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.lee.tac.model.TestcaseLog" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into testcase_log (id, testcase_id, status,
+      start_time, end_time, log_link
+      )
+    values (#{id,jdbcType=INTEGER}, #{testcaseId,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR},
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{logLink,jdbcType=VARCHAR}
+      )
+  </insert>
+    <insert id="insertSelective" parameterType="com.lee.tac.model.TestcaseLog">
+        insert into testcase_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="testcaseId != null">
+                testcase_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="startTime != null">
+                start_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="logLink != null">
+                log_link,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="testcaseId != null">
+                #{testcaseId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="logLink != null">
+                #{logLink,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.lee.tac.model.TestcaseLog">
+        update testcase_log
+        <set>
+            <if test="testcaseId != null">
+                testcase_id = #{testcaseId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="logLink != null">
+                log_link = #{logLink,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.lee.tac.model.TestcaseLog">
+    update testcase_log
+    set testcase_id = #{testcaseId,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      log_link = #{logLink,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
