@@ -3,7 +3,7 @@ package com.lee.tac.enums;
 /**
  * program: tac-root
  * description: ${description}
- * author: zhaoli@leoao.com
+ * author: zhao lee
  * create: 2018-04-27 14:50
  **/
 public enum LogStatusEnum {

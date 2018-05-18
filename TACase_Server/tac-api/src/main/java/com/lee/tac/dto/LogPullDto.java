@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * program: tac-root
  * description: ${description}
- * author: zhaoli@leoao.com
+ * author: zhao lee
  * create: 2018-04-18 13:58
  **/
 public class LogPullDto implements Serializable {
