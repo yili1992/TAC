@@ -7,7 +7,7 @@ import com.lee.tac.responses.CommonResponse;
 /**
  * program: tac-root
  * description: ${description}
- * author: zhaoli@leoao.com
+ * author: zhao lee
  * create: 2018-04-16 19:58
  **/
 public interface TestcaseApi {

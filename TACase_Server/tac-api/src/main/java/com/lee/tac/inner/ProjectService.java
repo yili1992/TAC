@@ -5,7 +5,7 @@ import com.lee.tac.dto.ProjectDto;
 /**
  * program: tac-root
  * description: ${description}
- * author: zhaoli@leoao.com
+ * author: zhao lee
  * create: 2018-04-11 16:09
  **/
 public interface ProjectService {
@@ -13,7 +13,7 @@ public interface ProjectService {
     * description: save project
     * @Param:
     * @return:
-    * author: zhaoli@leoao.com
+    * author: zhao lee
     * @Date:
     */
     int saveProject(ProjectDto newProject);

@@ -10,7 +10,7 @@ import java.util.concurrent.Executor;
 /**
  * program: tac-root
  * description: ${description}
- * author: zhaoli@leoao.com
+ * author: zhao lee
  * create: 2018-04-26 14:22
  **/
 @Configuration
