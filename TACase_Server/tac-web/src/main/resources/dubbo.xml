@@ -32,5 +32,5 @@
     <dubbo:service interface="com.lee.tac.inner.TestcaseLogService" ref="testcaseLogService" version="1.0.0" protocol="dubbo"/>
     <dubbo:service interface="com.lee.tac.inner.AsyncService" ref="asyncService" version="1.0.0" protocol="dubbo"/>
     <!--声明需要依赖的服务接口-->
-    <!--<dubbo:reference id="caseStatusApi" interface="com.lefit.tac.facade.pull.TestcaseStatusPullApilApi" version="1.0.0" />-->
+    <!--<dubbo:reference id="caseStatusApi" interface="com.lee.tac.facade.pull.TestcaseStatusPullApilApi" version="1.0.0" />-->
 </beans>
