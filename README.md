@@ -55,9 +55,9 @@ TAC 是TA Case简写，在将来测试集数量多，总类多的时候，如何
 # 三、安装部署
 请按照下面顺序进行安装部署
 ## 3.1 安装部署TAC
-[XXL-MQ](http://www.xuxueli.com/xxl-mq/#/) xxl-MQ进行消息队列来分发消息，安装broker即可，阅读3.2, 3.3, 3.4 然后打出war包 部署在tomcat上 正常访问到管理平台 标识安装成功
-[TAC_Server安装](https://github.com/yili1992/TAC/raw/master/TACase_Server/README.md)
-[TAC_Executor安装](https://github.com/yili1992/TAC/raw/master/TACase_Executor/README.md)
+- [XXL-MQ](http://www.xuxueli.com/xxl-mq/#/) xxl-MQ进行消息队列来分发消息，安装broker即可，阅读3.2, 3.3, 3.4 然后打出war包 部署在tomcat上 正常访问到管理平台 标识安装成功
+- [TAC_Server安装](https://github.com/yili1992/TAC/raw/master/TACase_Server/README.md)
+- [TAC_Executor安装](https://github.com/yili1992/TAC/raw/master/TACase_Executor/README.md)
 
 # 快照
 ![image](https://github.com/yili1992/TAC/raw/master/assets/2.png)
