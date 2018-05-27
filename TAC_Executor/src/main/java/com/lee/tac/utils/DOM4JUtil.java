@@ -1,6 +1,5 @@
 package com.lee.tac.utils;
 
-import org.dom4j.Attribute;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -10,10 +9,6 @@ import org.dom4j.io.XMLWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-
-import static com.lee.tac.utils.EncryptionTool.decryptBASE64;
 
 /**
  * program: tac-root
@@ -67,27 +62,16 @@ public class DOM4JUtil {
         String testName = "";
         Element suiteRoot = document.getRootElement();
         // 通过element对象的elementIterator方法获取迭代器
-        List<Element> testNodeList = suiteRoot.elements();
-        for(Element testNode: testNodeList){
-            if ("test".equals(testNode.getName())) {
-                testNode.attribute("name").getValue();
-                break;
-            }
-        }
+        Element testNode = (Element) suiteRoot.elements().get(0);
+        testName = testNode.attribute("name").getValue();
         return testName;
     }
 
     public static void setTestNGXmlTestName(Document document, String value){
         Element suiteRoot = document.getRootElement();
         // 通过element对象的elementIterator方法获取迭代器
-        List<Element> testNodeList = suiteRoot.elements();
-        for(Element testNode: testNodeList){
-            if ("test".equals(testNode.getName())) {
-                testNode.attribute("name").setValue(value);
-                break;
-            }
-        }
-
+        Element testNode = (Element) suiteRoot.elements().get(0);
+        testNode.attribute("name").setValue(value);
     }
 
     /**

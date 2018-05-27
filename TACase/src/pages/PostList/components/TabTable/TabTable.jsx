@@ -238,6 +238,7 @@ export default class TabTable extends Component {
             projectName: values.projectName,
             author: values.author,
             name: values.name,
+            content: values.content,
           },
         }],
       })

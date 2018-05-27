@@ -5,20 +5,22 @@ import com.lee.tac.dto.ProjectDto;
 import com.lee.tac.dto.TestcaseDto;
 import com.lee.tac.facade.pull.TestcasePullApi;
 import com.lee.tac.inner.AsyncService;
+import com.lee.tac.mapper.ProjectMapper;
 import com.lee.tac.mapper.TestcaseMapper;
+import com.lee.tac.model.Project;
 import com.lee.tac.model.Testcase;
 import com.lee.tac.requests.CommonRequest;
 import com.lee.tac.responses.CommonResponse;
 import com.lee.tac.service.ProjectServiceImpl;
-import com.lee.tac.utils.DateHelper;
-import com.lee.tac.mapper.ProjectMapper;
-import com.lee.tac.model.Project;
+import com.lee.tac.utils.DOM4JUtil;
+import org.dom4j.Document;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+import static com.lee.tac.utils.DateHelper.getCurrentDate;
 import static com.lee.tac.utils.EncryptionTool.decryptBASE64;
 
 /**
@@ -81,7 +83,7 @@ public class TestcaseApiImpl implements TestcasePullApi, TestcaseApi {
             testcase.setContent(testcaseDto.getContent());
             testcase.setName(testcaseDto.getName());
             testcase.setProjectId(projectId);
-            testcase.setCreateTime(DateHelper.getCurrentDate("yyyy-MM-dd HH:mm:ss"));
+            testcase.setCreateTime(getCurrentDate("yyyy-MM-dd HH:mm:ss"));
             int testcaseId = testcaseMapper.insert(testcase);
             String filePath = decryptBASE64(testcaseDto.getContent());
             asyncService.asyncUpdateXml(filePath, testcaseDto.getProjectName(), testcaseDto.getName());
@@ -103,19 +105,29 @@ public class TestcaseApiImpl implements TestcasePullApi, TestcaseApi {
             testcase.setId(request.getRequestData().getId());
             testcase.setName(request.getRequestData().getName());
             testcase.setAuthor(request.getRequestData().getAuthor());
+            testcase.setContent(request.getRequestData().getContent());
             Project checkProject = projectMapper.selectByName(request.getRequestData().getProjectName());
             testcase.setProjectId(checkProject.getId());
             Testcase orgTestcase = testcaseMapper.selectByPrimaryKey(request.getRequestData().getId());
-            if (orgTestcase.getName().equals(testcase.getName())&&
+            //配置文件发送改变
+            if (!orgTestcase.getContent().equals(testcase.getContent())){
+                String filePath = decryptBASE64(testcase.getContent());
+                asyncService.asyncUpdateXml(filePath, request.getRequestData().getProjectName(), testcase.getName());
+                testcaseId = testcaseMapper.updateByPrimaryKeySelective(testcase);
+                response.setMsg("测试集更新成功");
+            } //报告名，项目名，作者名都未改变
+            else if (orgTestcase.getName().equals(testcase.getName())&&
                     orgTestcase.getProjectId().equals(testcase.getProjectId())&&
                     orgTestcase.getAuthor().equals(testcase.getAuthor())){
                 testcaseId =1;
                 response.setMsg("测试集没有更新");
-            } else if (orgTestcase.getName().equals(testcase.getName())&&
+            } //报告名，项目名 未改变，作者发送改变
+            else if (orgTestcase.getName().equals(testcase.getName())&&
                     orgTestcase.getProjectId().equals(testcase.getProjectId())){
                 testcaseId = testcaseMapper.updateByPrimaryKeySelective(testcase);
                 response.setMsg("测试集更新成功");
-            } else {
+            } //报告名或项目名发送改变
+            else {
                 String filePath = decryptBASE64(orgTestcase.getContent());
                 asyncService.asyncUpdateXml(filePath, request.getRequestData().getProjectName(), testcase.getName());
                 testcaseId = testcaseMapper.updateByPrimaryKeySelective(testcase);

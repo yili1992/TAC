@@ -1,11 +1,11 @@
 /*
- * @Author: zhaoli@leoao.com
+ * @Author: zhao lee
  * @Date: 2018-04-16 19:36:42
- * @Last Modified by: zhao lee
- * @Last Modified time: 2018-04-17 20:15:41
+ * @Last Modified by: zhaoli
+ * @Last Modified time: 2018-05-19 10:13:39
  */
 import React, { Component } from 'react';
-import { Dialog, Button, Form, Input, Field, Select } from '@icedesign/base';
+import { Dialog, Button, Form, Input, Field, Select, Upload } from '@icedesign/base';
 
 const FormItem = Form.Item;
 
@@ -19,6 +19,7 @@ export default class EditDialog extends Component {
     this.state = {
       visible: false,
       dataIndex: null,
+      updateContent: null,
     };
     this.field = new Field(this);
   }
@@ -31,12 +32,22 @@ export default class EditDialog extends Component {
       }
 
       const { dataIndex } = this.state;
+      if (this.state.updateContent) {
+        values.content = this.state.updateContent;
+      }
       this.props.getFormValues(dataIndex, values);
       this.setState({
         visible: false,
       });
     });
   };
+
+  onSuccess = (res) => {
+    this.setState({
+      updateContent: res.imgURL,
+    });
+    console.log('onSuccess callback : ', res);
+  }
 
   onOpen = (index, record) => {
     this.field.setValues({ ...record });
@@ -114,6 +125,15 @@ export default class EditDialog extends Component {
                   rules: [{ required: true, message: '必填选项' }],
                 })}
               />
+              <Upload
+                limit={1}
+                action="/upload" // 构建发布使用
+                onSuccess={this.onSuccess}
+              >
+                <Button type="primary" style={{ margin: '0 0 10px' }}>
+                  修改配置文件
+                </Button>
+              </Upload>
             </FormItem>
           </Form>
         </Dialog>
