@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <configuration>
-	<!--
-		日志路径：
-		/opt/logs/tac/tac.log
-		/opt/logs/tac/tac.testcase.log
-	-->
+
 	<property name="log.name" value="tac" />
-	<property name="log.path" value="/Users/zhaoli/Downloads/files" />
+	<property name="log.path" value="./logs" />
   	
   	<!--本地开发环境使用当前路径-->
   	<springProfile name="development">

@@ -1,15 +1,5 @@
 package com.lee.tac.utils;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -23,6 +13,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+
+import java.io.*;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -374,7 +370,7 @@ public class HttpUtil {
     public static void main(String[] args) throws IOException {
         // String result = getUrlAsString("http://www.gewara.com/");
         // System.out.println(result);
-        downloadFile("/Users/lee/Downloads/executor/1524628174791.xml",
+        downloadFile("/Users/zhaoli/Downloads/executor/1524628174791.xml",
                 "http://172.16.12.106:8088/download/1524628174791&xml");
     }
 }
