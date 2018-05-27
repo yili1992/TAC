@@ -1,8 +1,13 @@
 /*
  * @Author: zhao lee
  * @Date: 2018-04-16 19:36:42
+<<<<<<< HEAD
  * @Last Modified by: zhaoli@leoao.com
  * @Last Modified time: 2018-05-19 10:13:39
+=======
+ * @Last Modified by: zhao lee
+ * @Last Modified time: 2018-04-17 20:15:41
+>>>>>>> master
  */
 import React, { Component } from 'react';
 import { Dialog, Button, Form, Input, Field, Select, Upload } from '@icedesign/base';
