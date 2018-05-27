@@ -1,7 +1,7 @@
 /*
  * @Author: zhao lee
  * @Date: 2018-04-16 19:36:42
- * @Last Modified by: zhaoli@leoao.com
+ * @Last Modified by: zhaoli
  * @Last Modified time: 2018-05-19 10:13:39
  */
 import React, { Component } from 'react';
