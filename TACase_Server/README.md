@@ -77,21 +77,21 @@ spring.profiles.active[0]=production  来选择生产环境配置信息还是开
 - tac-web 是Springboot 宿主工程， 启动Application ,正常启动后 访问 http://localhost:8088
 
 ## 部署TAC_Server
-- 对lefit-tac-root 执行 mvn package ，会产生tac.jar文件在lefit-tac-web/target下
+- 对tac-root 执行 mvn package ，会产生tac.jar文件在tac-web/target下
 - nohup java -jar tac.jar &
 
 #### 接口说明
 
-- [X] 1. 获取所有状态: /services/com.lefit.tac.facade.pull.TestcaseStatusPullApi ,method: 'getAllStatus'
-- [X] 2. 获取测试集执行日志： /services/com.lefit.tac.facade.pull.TestcaseLogPullApi, method: 'logListSearch'
-- [X] 3. 获取项目: /services/com.lefit.tac.facade.pull.ProjectPullApi, method: 'getProject'
-- [X] 4. 获取测试集: /services/com.lefit.tac.facade.pull.TestcasePullApi ,method: 'testCaseListSearch'
-- [X] 5. 更新测试集：/services/com.lefit.tac.facade.TestcaseApi'， method: 'updateTestCase'
-- [X] 6. 保存测试集：/services/com.lefit.tac.facade.TestcaseApi'， method: 'saveTestCase'
-- [X] 7. 删除测试集：/services/com.lefit.tac.facade.TestcaseApi， method: 'deleteTestCase'
-- [X] 8. 获取今日统计数据接口： /services/com.lefit.tac.facade.pull.StatisticsApi, method: 'getTodayData'
-- [X] 9. 获取昨日统计数据接口： /services/com.lefit.tac.facade.pull.StatisticsApi, method: 'getYesterdayData'
-- [X] 10. 获取总统计数据接口： /services/com.lefit.tac.facade.pull.StatisticsApi, method: 'getTotalData'
-- [X] 11. 获取近七日统计数据接口： /services/com.lefit.tac.facade.pull.StatisticsApi, method: 'getSevenDayData'
-- [X] 12. 获取近十二个月统计数据接口： /services/com.lefit.tac.facade.pull.StatisticsApi, method: 'getRecentlyYearExecuteData'
+- [X] 1. 获取所有状态: /services/com.lee.tac.facade.pull.TestcaseStatusPullApi ,method: 'getAllStatus'
+- [X] 2. 获取测试集执行日志： /services/com.lee.tac.facade.pull.TestcaseLogPullApi, method: 'logListSearch'
+- [X] 3. 获取项目: /services/com.lee.tac.facade.pull.ProjectPullApi, method: 'getProject'
+- [X] 4. 获取测试集: /services/com.lee.tac.facade.pull.TestcasePullApi ,method: 'testCaseListSearch'
+- [X] 5. 更新测试集：/services/com.lee.tac.facade.TestcaseApi'， method: 'updateTestCase'
+- [X] 6. 保存测试集：/services/com.lee.tac.facade.TestcaseApi'， method: 'saveTestCase'
+- [X] 7. 删除测试集：/services/com.lee.tac.facade.TestcaseApi， method: 'deleteTestCase'
+- [X] 8. 获取今日统计数据接口： /services/com.lee.tac.facade.pull.StatisticsApi, method: 'getTodayData'
+- [X] 9. 获取昨日统计数据接口： /services/com.lee.tac.facade.pull.StatisticsApi, method: 'getYesterdayData'
+- [X] 10. 获取总统计数据接口： /services/com.lee.tac.facade.pull.StatisticsApi, method: 'getTotalData'
+- [X] 11. 获取近七日统计数据接口： /services/com.lee.tac.facade.pull.StatisticsApi, method: 'getSevenDayData'
+- [X] 12. 获取近十二个月统计数据接口： /services/com.lee.tac.facade.pull.StatisticsApi, method: 'getRecentlyYearExecuteData'
 
