@@ -5,9 +5,9 @@
 分享一个最近实现的一个自动化测试管理系统
 - 为什么做这个东西：市面上API的管理和执行系统非常多，测试用例管理的系统也很多，但是管理和执行测试集的系统不多，github上没有找到合适的，加上公司需要这么个东西。
 - 为什么这么设计：目前的实现是基于TestNG 来执行管理，为了跟自动化框架尽可能的解耦，跟TestNG 关联其实就一个Listener 执行一个报告地址的回调函数和TestNG的库，回调把报告传回给系统，后续准备加载几种常用框架的 执行方式：Robotframework, pytest, 实现尽可能 容易的覆盖框架的执行和相应自动化脚本的管理。
-- 计划: 后续对代码进行整理后 开源到Github上
 - 开发的难易程度: 前后端分离, 后端写逻辑提供接口和服务，前端通过开源工具快速构建。
 - 为什么要写个分布式Case执行器不用Jenkins执行调度: 因为通过 消息队列三种模式 可以间接满足各种复杂的执行情况。
+- 目前还有很多设想的功能还没实现，期望各位大佬一起PR
 
 # 一、简介
 ## 1.1 概述
@@ -55,9 +55,9 @@ TAC 是TA Case简写，在将来测试集数量多，总类多的时候，如何
 # 三、安装部署
 请按照下面顺序进行安装部署
 ## 3.1 安装部署TAC
-[XXL-MQ](http://www.xuxueli.com/xxl-mq/#/) xxl-MQ进行消息队列来分发消息，安装broker即可，阅读3.2, 3.3, 3.4 然后打出war包 部署在tomcat上 正常访问到管理平台 标识安装成功
-[TAC_Server安装](https://github.com/yili1992/TAC/raw/master/TACase_Server/README.md)
-[TAC_Executor安装](https://github.com/yili1992/TAC/raw/master/TACase_Executor/README.md)
+- [XXL-MQ](http://www.xuxueli.com/xxl-mq/#/) xxl-MQ进行消息队列来分发消息，安装broker即可，阅读3.2, 3.3, 3.4 然后打出war包 部署在tomcat上 正常访问到管理平台 标识安装成功
+- [TAC_Server安装](https://github.com/yili1992/TAC/tree/master/TACase_Server)
+- [TAC_Executor安装](https://github.com/yili1992/TAC/tree/master/TAC_Executor)
 
 # 快照
 ![image](https://github.com/yili1992/TAC/raw/master/assets/2.png)
