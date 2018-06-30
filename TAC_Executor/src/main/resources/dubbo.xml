@@ -14,5 +14,5 @@
     <!-- mq consumer -->
     <bean class="com.xxl.mq.client.XxlMqConsumer" />
     <!--声明需要依赖的服务接口-->
-    <dubbo:reference id="testcaseLogService" interface="com.lee.tac.inner.TestcaseLogService" version="1.0.0" />
+    <dubbo:reference id="testcaseLogService" interface="com.lee.tac.inner.TestcaseLogService" version="1.0.0" retries="0" timeout="5000"/>
 </beans>

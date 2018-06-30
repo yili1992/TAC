@@ -113,6 +113,8 @@ public class TestCaseController {
         String logLink = reportBaseUrl+"?id="+reportId;
         TestcaseLogDto testcaseLogDto = testcaseLogService.selectTestcaseLogById(Integer.valueOf(logId));
         testcaseLogDto.setLogLink(logLink);
+        testcaseLogDto.setStatus(LogStatusEnum.DONE.getName());
+        testcaseLogDto.setEndTime(getCurrentDate("yyyy-MM-dd HH:mm:ss"));
         testcaseLogService.updateTestcaseLog(testcaseLogDto);
         logger.info("回调报告地址："+logLink);
     }
