@@ -20,7 +20,7 @@ zkserver=127.0.0.1:2181
 
 ## 部署TAC_Server
 - 执行 mvn package ，会产生tac-executor.jar文件在/target下
-- nohup java -Ddubbo.qos.port=33333 -jar tac-executor.jar > /dev/null  2>&1 &
+- nohup java -Ddubbo.qos.port=33333 -jar tac-executor.jar &
 
 
 

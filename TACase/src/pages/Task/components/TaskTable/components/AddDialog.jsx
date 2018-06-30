@@ -1,16 +1,16 @@
 /*
- * @Author: zhao lee
+ * @Author: zhaoli
  * @Date: 2018-04-16 19:36:42
  * @Last Modified by: zhaoli
- * @Last Modified time: 2018-06-21 10:42:34
+ * @Last Modified time: 2018-06-21 10:42:48
  */
 import React, { Component } from 'react';
-import { Dialog, Button, Form, Input, Field, Select, Upload } from '@icedesign/base';
+import { Dialog, Button, Form, Input, Field, Select } from '@icedesign/base';
 
 const FormItem = Form.Item;
 
-export default class EditDialog extends Component {
-  static displayName = 'EditDialog';
+export default class AddDialog extends Component {
+  static displayName = 'AddDialog';
 
   static defaultProps = {};
 
@@ -18,7 +18,6 @@ export default class EditDialog extends Component {
     super(props);
     this.state = {
       visible: false,
-      dataIndex: null,
       updateContent: null,
     };
     this.field = new Field(this);
@@ -31,11 +30,10 @@ export default class EditDialog extends Component {
         return;
       }
 
-      const { dataIndex } = this.state;
       if (this.state.updateContent) {
         values.content = this.state.updateContent;
       }
-      this.props.getFormValues(dataIndex, values);
+      this.props.addFormValues(values);
       this.setState({
         visible: false,
       });
@@ -53,7 +51,6 @@ export default class EditDialog extends Component {
     this.field.setValues({ ...record });
     this.setState({
       visible: true,
-      dataIndex: index,
     });
   };
 
@@ -77,11 +74,11 @@ export default class EditDialog extends Component {
     return (
       <div style={styles.editDialog}>
         <Button
-          size="small"
-          type="secondary"
+          size="large"
+          type="primary"
           onClick={() => this.onOpen(index, record)}
         >
-          编辑
+          增加
         </Button>
         <Dialog
           style={{ width: 640 }}
@@ -90,50 +87,32 @@ export default class EditDialog extends Component {
           closable="esc,mask,close"
           onCancel={this.onClose}
           onClose={this.onClose}
-          title="编辑"
+          title="增加"
         >
           <Form direction="ver" field={this.field}>
-            <FormItem label="标题：" {...formItemLayout}>
-              <Input
-                {...init('name', {
-                  rules: [{ required: true, message: '必填选项' }],
-                })}
-              />
-            </FormItem>
-            <FormItem label="项目：" {...formItemLayout}>
-              <Select {...init('projectName', { rules: [{ required: true, message: '必填选项' }] })} >
-                {this.props.projects.map((item) => {
+            <FormItem label="测试集:" {...formItemLayout}>
+              <Select style={styles.select} {...init('testcase', { rules: [{ required: true, message: '必填选项' }] })} >
+                {this.props.testcase.map((item) => {
                   return (
-                    <li value={item.name} key={item.id}>{item.name}</li>
+                    <li value={item.id} key={item.id}>{item.name}</li>
                   );
                 })}
               </Select>
             </FormItem>
 
-            <FormItem label="作者：" {...formItemLayout}>
+            <FormItem label="负责人:" {...formItemLayout}>
               <Input
                 {...init('author', {
                   rules: [{ required: true, message: '必填选项' }],
                 })}
               />
             </FormItem>
-
-            <FormItem label="配置信息：" {...formItemLayout}>
-              <Input disabled
-                placeholder="disabled"
-                {...init('content', {
+            <FormItem label="Cron:" {...formItemLayout}>
+              <Input
+                {...init('cron', {
                   rules: [{ required: true, message: '必填选项' }],
                 })}
               />
-              <Upload
-                limit={1}
-                action="/upload" // 构建发布使用
-                onSuccess={this.onSuccess}
-              >
-                <Button type="primary" style={{ margin: '0 0 10px' }}>
-                  修改配置文件
-                </Button>
-              </Upload>
             </FormItem>
           </Form>
         </Dialog>
@@ -143,8 +122,12 @@ export default class EditDialog extends Component {
 }
 
 const styles = {
+  select: {
+    width: '300px',
+  },
   editDialog: {
     display: 'inline-block',
     marginRight: '5px',
+    marginTop: '5px',
   },
 };

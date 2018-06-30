@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -28,8 +29,7 @@ public class AppConfiguration {
         // 使用内嵌的hsqldb作为DEMO的测试
         // return new EmbeddedDatabaseBuilder().addScript("schema.sql").build();
         // 日常使用spring-data数据源或者其他开源的数据库连接池
-        // return DataSourceBuilder.create().build();
-        return new org.apache.tomcat.jdbc.pool.DataSource();
+         return DataSourceBuilder.create().build();
     }
 
     @Bean

@@ -9,6 +9,7 @@ TAC_Server 整个TAC平台是前后端分离项目，TAC_Server是后端项目�
 # TAC_Server部署
 ## 数据库信息
 根据下面建表信息创建表
+- 执行 resource/quartzDB.sql 中的sql语句来创建定时任务的表信息
 
 ```` sql
 
@@ -39,6 +40,15 @@ CREATE TABLE testcase(
     last_excute_time datetime comment '最新执行时间',
     content text comment '配置信息，配置文件所在地址转Base64编码保存',
     author varchar(15) comment '作者'
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+#定时任务
+CREATE TABLE cron_task(
+    id int not null auto_increment primary key comment '唯一主键',
+    testcase_id int comment '测试集id',
+    cron varchar(20) comment 'cron 语法',
+    author varchar(15) comment '责任人',
+    enable tinyint(1) default 1 comment '是否启动',
+    is_delete tinyint(1) default 0 comment '是否删除'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8;
 #测试日志
 CREATE TABLE testcase_log(

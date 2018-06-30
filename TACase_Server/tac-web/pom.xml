@@ -15,8 +15,6 @@
   <properties>
     <!--只有api才需要作为二方库部署到maven仓库-->
     <skip_maven_deploy>true</skip_maven_deploy>
-      <thymeleaf.version>3.0.2.RELEASE</thymeleaf.version>
-      <thymeleaf-layout-dialect.version>2.1.1</thymeleaf-layout-dialect.version>
   </properties>
 
   <dependencies>
@@ -38,8 +36,8 @@
       <artifactId>spring-boot-starter-thymeleaf</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.mybatis.spring.boot</groupId>
-      <artifactId>mybatis-spring-boot-starter</artifactId>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-quartz</artifactId>
     </dependency>
 
     <dependency>
@@ -52,12 +50,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <!--当前tac是使用hsqldb-->
-      <!--<scope>test</scope>-->
     </dependency>
 
     <!--服务框架-->

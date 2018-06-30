@@ -23,9 +23,12 @@
     <dubbo:service interface="com.lee.tac.facade.TestcaseApi" ref="reportApi" version="1.0.0" protocol="dubbo,jsonrpc"/>
     <dubbo:service interface="com.lee.tac.facade.pull.TestcaseLogPullApi" ref="reportLogApi" version="1.0.0" protocol="dubbo,jsonrpc"/>
     <dubbo:service interface="com.lee.tac.facade.pull.StatisticsApi" ref="statisticsApi" version="1.0.0" protocol="dubbo,jsonrpc"/>
+    <dubbo:service interface="com.lee.tac.facade.pull.CronTaskPullApi" ref="taskApi" version="1.0.0" protocol="dubbo,jsonrpc"/>
+
 
     <!--声明需要暴露的服务接口，不提供jsonrpc-->
 
+    <dubbo:service interface="com.lee.tac.inner.CronTaskService" ref="taskService" version="1.0.0" protocol="dubbo"/>
     <dubbo:service interface="com.lee.tac.inner.ProjectService" ref="projectService" version="1.0.0" protocol="dubbo"/>
     <dubbo:service interface="com.lee.tac.inner.StatisticsService" ref="statisticsService" version="1.0.0" protocol="dubbo"/>
     <dubbo:service interface="com.lee.tac.inner.ViewService" ref="viewService" version="1.0.0" protocol="dubbo"/>

@@ -1,6 +1,5 @@
 // <!-- auto generated navs start -->
 const autoGenHeaderNavs = [];
-const autoGenAsideNavs = [];
 
 // <!-- auto generated navs end -->
 
@@ -27,6 +26,7 @@ const customAsideNavs = [
       { text: '测试集列表', to: '/post/list' },
     ],
   },
+  { text: '定时任务', to: '/task', icon: 'pin' },
 ];
 
 function transform(navs) {
@@ -39,4 +39,4 @@ export const headerNavs = transform([
   ...customHeaderNavs,
 ]);
 
-export const asideNavs = transform([...autoGenAsideNavs, ...customAsideNavs]);
+export const asideNavs = transform([...customAsideNavs]);

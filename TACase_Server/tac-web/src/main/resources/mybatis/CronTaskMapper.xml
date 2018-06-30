@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lee.tac.mapper.CronTaskMapper">
+  <resultMap id="BaseResultMap" type="com.lee.tac.model.CronTask">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="testcase_id" jdbcType="INTEGER" property="testcaseId" />
+    <result column="cron" jdbcType="VARCHAR" property="cron" />
+    <result column="author" jdbcType="VARCHAR" property="author" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+    <result column="is_delete" jdbcType="BIT" property="isDelete" />
+  </resultMap>
+    <resultMap id="CronTaskDtoMap" type="com.lee.tac.dto.CronTaskDto">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="testcase_name" jdbcType="VARCHAR" property="testcaseName" />
+      <result column="testcase_id" jdbcType="INTEGER" property="testcaseId" />
+        <result column="cron" jdbcType="VARCHAR" property="cron" />
+        <result column="author" jdbcType="VARCHAR" property="author" />
+        <result column="enable" jdbcType="BIT" property="enable" />
+        <result column="is_delete" jdbcType="BIT" property="isDelete" />
+    </resultMap>
+
+  <sql id="Base_Column_List">
+    id, testcase_id, cron, author, enable, is_delete
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from cron_task
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="queryCronTask" resultMap="CronTaskDtoMap">
+    select cron_task.id, testcase.name as testcase_name, testcase_id, cron_task.author, cron, enable, is_delete
+    from cron_task left join testcase on cron_task.testcase_id = testcase.id
+    <where>
+        is_delete = FALSE
+    </where>
+    order by cron_task.id DESC
+  </select>
+
+  <select id="selectExistTaskByTestcaseId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, testcase_id, author, cron, enable, is_delete
+    from cron_task
+    <where>
+      is_delete = FALSE AND testcase_id = #{id,jdbcType=INTEGER}
+    </where>
+    order by cron_task.id DESC
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from cron_task
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.lee.tac.model.CronTask">
+    insert into cron_task (id, testcase_id, cron, 
+      author, enable, is_delete)
+    values (#{id,jdbcType=INTEGER}, #{testcaseId,jdbcType=INTEGER}, #{cron,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{enable,jdbcType=BIT}, #{isDelete,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.lee.tac.model.CronTask" useGeneratedKeys="true" keyProperty="id">
+    insert into cron_task
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="testcaseId != null">
+        testcase_id,
+      </if>
+      <if test="cron != null">
+        cron,
+      </if>
+      <if test="author != null">
+        author,
+      </if>
+      <if test="enable != null">
+        enable,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="testcaseId != null">
+        #{testcaseId,jdbcType=INTEGER},
+      </if>
+      <if test="cron != null">
+        #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null">
+        #{enable,jdbcType=BIT},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.lee.tac.model.CronTask">
+    update cron_task
+    <set>
+      <if test="testcaseId != null">
+        testcase_id = #{testcaseId,jdbcType=INTEGER},
+      </if>
+      <if test="cron != null">
+        cron = #{cron,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null">
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="enable != null">
+        enable = #{enable,jdbcType=BIT},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.lee.tac.model.CronTask">
+    update cron_task
+    set testcase_id = #{testcaseId,jdbcType=INTEGER},
+      cron = #{cron,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      enable = #{enable,jdbcType=BIT},
+      is_delete = #{isDelete,jdbcType=BIT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

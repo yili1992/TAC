@@ -1,11 +1,11 @@
 /*
- * @Author: zhao lee
+ * @Author: zhaoli
  * @Date: 2018-04-16 19:36:42
- * @Last Modified by: zhaoli
- * @Last Modified time: 2018-06-21 10:42:34
+ * @Last Modified by: zhaoli@leoao.com
+ * @Last Modified time: 2018-06-21 10:43:02
  */
 import React, { Component } from 'react';
-import { Dialog, Button, Form, Input, Field, Select, Upload } from '@icedesign/base';
+import { Dialog, Button, Form, Input, Field } from '@icedesign/base';
 
 const FormItem = Form.Item;
 
@@ -93,47 +93,19 @@ export default class EditDialog extends Component {
           title="编辑"
         >
           <Form direction="ver" field={this.field}>
-            <FormItem label="标题：" {...formItemLayout}>
+            <FormItem label="Cron" {...formItemLayout}>
               <Input
-                {...init('name', {
+                {...init('cron', {
                   rules: [{ required: true, message: '必填选项' }],
                 })}
               />
             </FormItem>
-            <FormItem label="项目：" {...formItemLayout}>
-              <Select {...init('projectName', { rules: [{ required: true, message: '必填选项' }] })} >
-                {this.props.projects.map((item) => {
-                  return (
-                    <li value={item.name} key={item.id}>{item.name}</li>
-                  );
-                })}
-              </Select>
-            </FormItem>
-
-            <FormItem label="作者：" {...formItemLayout}>
+            <FormItem label="负责人:" {...formItemLayout}>
               <Input
                 {...init('author', {
                   rules: [{ required: true, message: '必填选项' }],
                 })}
               />
-            </FormItem>
-
-            <FormItem label="配置信息：" {...formItemLayout}>
-              <Input disabled
-                placeholder="disabled"
-                {...init('content', {
-                  rules: [{ required: true, message: '必填选项' }],
-                })}
-              />
-              <Upload
-                limit={1}
-                action="/upload" // 构建发布使用
-                onSuccess={this.onSuccess}
-              >
-                <Button type="primary" style={{ margin: '0 0 10px' }}>
-                  修改配置文件
-                </Button>
-              </Upload>
             </FormItem>
           </Form>
         </Dialog>
@@ -146,5 +118,6 @@ const styles = {
   editDialog: {
     display: 'inline-block',
     marginRight: '5px',
+    // marginTop: '5px',
   },
 };
