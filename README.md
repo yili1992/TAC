@@ -25,6 +25,7 @@ TAC 是应对与TestNG的自动化测试用例管理系统，以TestNG package�
 - 简单全面： 对于测试集的管理，执行，和报告的查看
 - 与TestNG解耦：跟TestNG 库的关联 通过Listener, 即对TestNG测试用例代码无侵入.(后期还需要继续解耦,或者合并TestNG)
 - 执行钩子: 提供相应测试集的 执行钩子 ，方便CI
+- 定时任务设置
 
 ## 1.4 背景
 ### Why TAC
